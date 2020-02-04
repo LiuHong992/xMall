@@ -1,10 +1,12 @@
 <template>
-  <div></div>
+  <div>
+    <!-- 头部 -->
+    <xmheaders></xmheaders>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "register",
   data() {
     return {};
   },

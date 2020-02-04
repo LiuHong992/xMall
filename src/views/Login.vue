@@ -1,37 +1,26 @@
 <template>
- <div>
-
- </div>
+  <div>
+    <vaptcha></vaptcha>
+  </div>
 </template>
 
 <script>
- export default {
-   data () {
-     return {
-
-     }
-   },
-   components: {
-
-   },
-   methods: {
-
-   },
-   mounted() {
-
-   },
-   watch: {
-
-   },
-   computed: {
-
-   },
-   filters: {
-
-   }
- }
+import vaptcha from "../components/Common/Vaptcha";
+export default {
+  name: "login",
+  data() {
+    return {};
+  },
+  components: {
+    vaptcha
+  },
+  methods: {},
+  mounted() {},
+  watch: {},
+  computed: {},
+  filters: {}
+};
 </script>
 
 <style scoped lang='scss'>
-
 </style>
