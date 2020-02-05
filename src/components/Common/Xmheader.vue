@@ -46,8 +46,23 @@ export default {
     };
   },
   components: {},
-  methods: {},
-  mounted() {},
+  methods: {
+    getCarts() {
+      this.$api
+        .getCart()
+        .then(res => {
+          if (res.code === 200) {
+            console.log(res);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  mounted() {
+    this.getCarts();
+  },
   watch: {},
   computed: {},
   filters: {}

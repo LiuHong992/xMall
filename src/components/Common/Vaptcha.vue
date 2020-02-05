@@ -83,7 +83,6 @@ export default {
         offline_server: "/offline"
       }).then(vaptchaObj => {
         // console.log(vaptchaObj);
-        this.$emit("input", vaptchaObj);
         vaptchaObj.render(); //渲染按钮
 
         //获取token的方式二：
