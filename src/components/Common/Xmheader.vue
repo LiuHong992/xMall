@@ -35,6 +35,17 @@
         </div>
       </div>
     </div>
+    <!-- 头部第二部分 -->
+    <div class="xm-header-two" v-if="specialnum === -1">
+      <div class="xm-two-content flex">
+        <div class="crumbs flex" v-for="(item,index) in crumbArr" :key="index">
+          <div class="dotted"></div>
+          <a href="javascript:void(0)" @click="changeFont(item.paths)">
+            <span :class="{fw:fwcount === index}">{{item.title}}</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,14 +53,69 @@
 export default {
   data() {
     return {
-      Svalue: ""
+      // 搜索关键词
+      Svalue: "",
+      // 面包屑数组
+      crumbArr: [
+        {
+          title: "首页",
+          paths: "/"
+        },
+        {
+          title: "全部",
+          paths: "goods"
+        },
+        {
+          title: "品牌周边",
+          paths: ""
+        },
+        {
+          title: "捐赠名单",
+          paths: ""
+        },
+        {
+          title: "后台管理系统",
+          paths: ""
+        },
+        {
+          title: "XPay支付系统",
+          paths: ""
+        },
+        {
+          title: "XBoot开发平台",
+          paths: ""
+        },
+        {
+          title: "宣传视频",
+          paths: ""
+        },
+        {
+          title: "Github",
+          paths: ""
+        },
+        {
+          title: "商用授权",
+          paths: ""
+        }
+      ]
     };
+  },
+  props: {
+    fwcount: {
+      type: Number,
+      default: 0
+    },
+    specialnum: {
+      type: Number,
+      default: 0
+    }
   },
   components: {},
   methods: {
-    getCarts() {
+    // 获取购物车数据
+    getCart() {
       this.$api
-        .getCart()
+        .getCarts()
         .then(res => {
           if (res.code === 200) {
             console.log(res);
@@ -58,10 +124,20 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    // 改变字体
+    changeFont(pa) {
+      if (pa !== "") {
+        this.$router.push(pa);
+      } else {
+        this.$Message.info("该功能暂未开发！");
+      }
+      // this.fwcount = idx;
+      // console.log(this.count);
     }
   },
   mounted() {
-    this.getCarts();
+    // this.getCart();
   },
   watch: {},
   computed: {},
@@ -153,6 +229,47 @@ export default {
             line-height: 20px;
             font-size: 12px;
           }
+        }
+      }
+    }
+  }
+  // 头部下半部分
+  .xm-header-two {
+    height: 90px;
+    padding: 31px 0;
+    background: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    .xm-two-content {
+      max-width: 1220px;
+      height: 100%;
+      margin: 0 auto;
+      .crumbs {
+        position: relative;
+        .dotted {
+          position: absolute;
+          top: 13px;
+          width: 2px;
+          height: 2px;
+          border-radius: 50%;
+          background-color: #bdbdbd;
+        }
+        &:first-child {
+          span {
+            margin: 0 20px;
+          }
+        }
+        span {
+          line-height: 28px;
+          margin: 0 10px 0 12px;
+          font-weight: 400;
+          color: #666;
+          &:hover {
+            cursor: pointer;
+            color: #5683ea;
+          }
+        }
+        .fw {
+          font-weight: 700;
         }
       }
     }
