@@ -1,13 +1,13 @@
 <template>
-  <div class="xm-header">
+  <div class="xm-header b-box">
     <!-- 头部第一部分 -->
-    <div ref="xmone" class="xm-header-one flex bt">
+    <div class="xm-header-one flex s-b">
       <!-- LOGO -->
       <a href="/">
         <div class="header-navone"></div>
       </a>
       <!-- 搜索框等 -->
-      <div class="right-box flex">
+      <div ref="xmone" class="right-box fl">
         <!-- 搜索框 -->
         <div class="searchinpt">
           <Input suffix="ios-search" v-model="Svalue" placeholder="请输入商品信息" style="width: 305px" />
@@ -23,7 +23,7 @@
         <!-- 竖线 -->
         <div class="vertical-line"></div>
         <!-- 右边用户信息和购物车图标 -->
-        <div ref="ucarts" class="user-carts flex">
+        <div ref="ucarts" class="user-carts fl p-r">
           <div class="users bac" @mouseenter="changeCount" @mouseleave="changeCounts" @click="goTo"></div>
           <!-- 隐藏的盒子 -->
           <div
@@ -76,15 +76,18 @@
             <div class="cartsnum" :class="cartsNum>0?'cart-num-red':''">
               <span>{{cartsNum}}</span>
             </div>
+            <div class="hidden-carts p-a z-999">
+              <shopcart class="xm-carts p-r"></shopcart>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!-- 头部第二部分 -->
-    <div class="xm-header-two" v-if="specialnum === -1">
-      <div ref="xmtwo" class="xm-two-content flex bt">
-        <div class="xm-content-left flex">
-          <div class="crumbs flex" v-for="(item,index) in crumbArr" :key="index">
+    <div class="xm-header-two w-100" :class="[ sTop>=100 ? 'h-stick':'']" v-if="specialnum === -1">
+      <div ref="xmtwo" class="xm-two-content fl s-b" :class="[ sTop>=100 ? 'h-60':'']">
+        <div class="xm-content-left fl">
+          <div class="crumbs fl" v-for="(item,index) in crumbArr" :key="index">
             <div class="dotted"></div>
             <a href="javascript:void(0)" @click="changeFont(item.paths)">
               <span :class="{fw:fwcount === index}">{{item.title}}</span>
@@ -97,6 +100,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import shopcart from "./Xmcarts";
 export default {
   data() {
     return {
@@ -148,7 +153,9 @@ export default {
       // 接收存储在localstorage中的用户名
       username: "",
       // 控制隐藏的盒子的显示
-      count: 0
+      count: 0,
+      // 接收页面滚动距离
+      sTop: 0
     };
   },
   props: {
@@ -161,14 +168,32 @@ export default {
       default: 0
     }
   },
-  components: {},
+  components: {
+    shopcart
+  },
   methods: {
+    // 监听页面滚动
+    handleScroll() {
+      var scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      this.sTop = scrollTop;
+      if (scrollTop >= 100) {
+        this.$refs.xmtwo.appendChild(this.$refs.ucarts);
+      } else {
+        this.$refs.xmone.appendChild(this.$refs.ucarts);
+      }
+    },
     // 改变字体
     changeFont(pa) {
       if (pa !== "") {
         this.$router.push(pa);
       } else {
-        this.$Message.info("该功能暂未开发！");
+        this.$message({
+          message: "该功能暂未开发！",
+          type: "warning"
+        });
       }
       // this.fwcount = idx;
       // console.log(this.count);
@@ -200,16 +225,14 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener("scroll", this.handleScroll);
     if (localStorage.getItem("xmUser")) {
       this.username = JSON.parse(localStorage.getItem("xmUser")).username;
-      console.log(this.$store.state.cartsNum);
     }
   },
   watch: {},
   computed: {
-    cartsNum() {
-      return this.$store.state.cartsNum;
-    }
+    ...mapState(["cartsNum"])
   },
   filters: {}
 };
@@ -259,158 +282,211 @@ export default {
         margin-top: 10px;
         background-color: #373737;
       }
-      // 用户信息和购物车
-      .user-carts {
-        .bac {
-          position: relative;
-          background: url("../../assets/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png")
-            no-repeat;
-        }
-        .users {
-          width: 36px;
-          margin-bottom: 5px;
-          margin-left: 41px;
-          background-position: -60px 6px;
-          &:hover {
-            cursor: pointer;
-            background-position: 0 6px;
-          }
-        }
-        // 隐藏的用户信息盒子
-        .hidden-users {
+    }
+  }
+  // 用户信息和购物车
+  .user-carts {
+    .bac {
+      position: relative;
+      background: url("../../assets/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png")
+        no-repeat;
+    }
+    .users {
+      width: 36px;
+      margin-bottom: 5px;
+      margin-left: 41px;
+      background-position: -60px 6px;
+      &:hover {
+        cursor: pointer;
+        background-position: 0 6px;
+      }
+    }
+    // 隐藏的用户信息盒子
+    .hidden-users {
+      position: absolute;
+      top: 24px;
+      right: 14px;
+      z-index: 30;
+      padding-top: 18px;
+      &:hover {
+        cursor: default;
+      }
+      .hidden-content {
+        width: 168px;
+        position: relative;
+        padding-top: 20px;
+        background: #fff;
+        border: 1px solid #d6d6d6;
+        border-color: rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        // 顶部三角形
+        .triangle {
           position: absolute;
-          top: 60px;
-          right: 16px;
-          z-index: 30;
-          padding-top: 18px;
-          &:hover {
-            cursor: default;
+          left: 45%;
+          top: -12px;
+          width: 0;
+          height: 0;
+          border: 6px solid transparent;
+          border-bottom-color: #fff;
+        }
+        // 头像用户名
+        .common-hidden-image {
+          .portrait {
+            width: 46px;
+            height: 46px;
+            margin: 0 auto 8px;
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
           }
-          .hidden-content {
-            width: 168px;
-            position: relative;
-            padding-top: 20px;
-            background: #fff;
-            border: 1px solid #d6d6d6;
-            border-color: rgba(0, 0, 0, 0.08);
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            // 顶部三角形
-            .triangle {
-              position: absolute;
-              left: 45%;
-              top: -12px;
-              width: 0;
-              height: 0;
-              border: 6px solid transparent;
-              border-bottom-color: #fff;
-            }
-            // 头像用户名
-            .common-hidden-image {
-              .portrait {
-                width: 46px;
-                height: 46px;
-                margin: 0 auto 8px;
-                img {
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 50%;
-                }
-              }
-              p {
-                margin-bottom: 16px;
-                font-size: 12px;
-                color: #757575;
-                line-height: 1.5;
-              }
-            }
-            // 公共样式
-            .common-hiddens {
-              height: 44px;
-              border-top: 1px solid #f5f5f5;
-              line-height: 44px;
-              font-size: 12px;
-              color: #616161;
-              &:hover {
-                cursor: pointer;
-                background: #fafafa;
-              }
-            }
+          p {
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: #757575;
+            line-height: 1.5;
           }
         }
-        .shopcarts {
-          width: 61px;
-          margin-left: 21px;
+        // 公共样式
+        .common-hiddens {
+          height: 44px;
+          border-top: 1px solid #f5f5f5;
+          line-height: 44px;
+          font-size: 12px;
+          color: #616161;
           &:hover {
             cursor: pointer;
-            .carts {
-              height: 25px;
-              background-position: -4px -19px;
-            }
+            background: #fafafa;
           }
-          .carts {
-            width: 28px;
-            margin-top: 4px;
-            background-position: -64px -19px;
-          }
-          .cartsnum {
-            width: 20px;
-            height: 20px;
-            margin-top: 6px;
-            border-radius: 50%;
-            background-color: #969696;
-            color: #fff;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-          }
-          .cart-num-red {
-            background-color: #eb746b !important;
-          }
+        }
+      }
+    }
+    .shopcarts {
+      position: relative;
+      width: 61px;
+      margin-left: 21px;
+      &:hover {
+        cursor: pointer;
+        .carts {
+          height: 25px;
+          background-position: -4px -19px;
+        }
+        .hidden-carts {
+          display: block;
+        }
+      }
+      .carts {
+        width: 28px;
+        margin-top: 4px;
+        background-position: -64px -19px;
+      }
+      .cartsnum {
+        width: 20px;
+        height: 20px;
+        margin-top: 6px;
+        border-radius: 50%;
+        background-color: #969696;
+        color: #fff;
+        text-align: center;
+        line-height: 20px;
+        font-size: 12px;
+      }
+      .cart-num-red {
+        background-color: #eb746b !important;
+      }
+      // 隐藏的购物车盒子
+      .hidden-carts {
+        display: none;
+        padding-top: 18px;
+        top: 20px;
+        right: 0;
+        width: 360px;
+        .xm-carts {
+          border-radius: 8px;
+          background-color: #fff;
+          border: 1px solid #d6d6d6;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
       }
     }
   }
   // 头部下半部分
   .xm-header-two {
-    height: 90px;
-    padding: 31px 0;
+    z-index: 20;
     background: #f7f7f7;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     .xm-two-content {
       max-width: 1220px;
       height: 100%;
+      padding: 31px 0;
       margin: 0 auto;
-      .crumbs {
-        position: relative;
-        .dotted {
-          position: absolute;
-          top: 13px;
-          width: 2px;
-          height: 2px;
-          border-radius: 50%;
-          background-color: #bdbdbd;
-        }
-        &:first-child {
+      .xm-content-left {
+        .crumbs {
+          position: relative;
+          .dotted {
+            position: absolute;
+            top: 13px;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background-color: #bdbdbd;
+          }
+          &:first-child {
+            span {
+              margin: 0 20px;
+            }
+          }
           span {
-            margin: 0 20px;
+            line-height: 28px;
+            margin: 0 10px 0 12px;
+            font-weight: 400;
+            color: #666;
+            &:hover {
+              cursor: pointer;
+              color: #5683ea;
+            }
           }
-        }
-        span {
-          line-height: 28px;
-          margin: 0 10px 0 12px;
-          font-weight: 400;
-          color: #666;
-          &:hover {
-            cursor: pointer;
-            color: #5683ea;
+          .fw {
+            font-weight: 700;
           }
-        }
-        .fw {
-          font-weight: 700;
         }
       }
+      .user-carts {
+        .users {
+          background-position: -145px 3px;
+          margin-bottom: 0;
+          &:hover {
+            background-position: -205px 2px;
+          }
+        }
+        .hidden-users {
+          top: 20px;
+          right: 11px;
+        }
+        .carts {
+          height: 23px;
+          background-position: -150px -20px;
+          margin-top: 1px;
+          &:hover {
+            background-position: -210px -20px;
+          }
+        }
+        .cartsnum {
+          margin-top: 3px;
+        }
+      }
+    }
+  }
+  .h-stick {
+    position: fixed;
+    top: 0;
+    height: 60px;
+    .h-60 {
+      padding: 0;
+      align-items: center;
     }
   }
 }
