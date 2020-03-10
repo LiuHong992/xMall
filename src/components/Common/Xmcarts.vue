@@ -27,7 +27,7 @@
             </div>
           </div>
           <!-- 右边的删除按钮 -->
-          <div class="delete-btn p-a"></div>
+          <div class="delete-btn p-a" @click="deleteGood(item._id)"></div>
         </div>
       </div>
       <!-- 下方的结算信息 -->
@@ -48,13 +48,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {};
   },
   components: {},
-  methods: {},
+  methods: {
+    ...mapActions(["deleteCart"]),
+    deleteGood(p_id) {
+      this.deleteCart({ productId: p_id });
+    }
+  },
   mounted() {},
   watch: {},
   computed: {
@@ -85,6 +90,7 @@ export default {
   // 购物车内有商品时显示的内容
   .goods-content {
     .carts-cont {
+      max-height: 600px;
       overflow-x: hidden;
       overflow-y: auto;
       .good-model {

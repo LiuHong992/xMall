@@ -33,17 +33,8 @@ export default {
     // 4.priceGt: 价格区间 从多少开始
     // 5.priceLte: 价格区间 到哪结束
     // ```
-    GetallGoods(page = 1, size = 20, sort, priceGt, priceLte) {
-        return service.get(
-            '/goods/allGoods', {
-                params: {
-                    page,
-                    size,
-                    sort,
-                    priceGt,
-                    priceLte
-                }
-            })
+    GetallGoods({ page = 1, size = 30, sort, priceGt = 0, priceLte = 99999 }) {
+        return service.get(`/goods/allGoods?page=${page}&size=${size}&sort=${sort}&priceGt=${priceGt}&priceLte=${priceLte}`)
     },
     // ### 搜索商品
 
@@ -114,7 +105,7 @@ export default {
     // 参数:
     // productId: 商品id
     // ```
-    addCart(productId, count = 1) {
+    addCart({ productId, count = 1 }) {
         return service.post(
             '/goods/addCart', {
                 productId,
@@ -138,7 +129,7 @@ export default {
     // 参数
     // 1.productId: 商品_id
     // ```
-    delCart(productId) {
+    delCart({ productId }) {
         return service.post(
             '/goods/delCart', {
                 productId

@@ -107,6 +107,8 @@ export default {
     return {
       // 搜索关键词
       Svalue: "",
+      // 控制页面添加dom元素的参数
+      flag: false,
       // 面包屑数组
       crumbArr: [
         {
@@ -180,9 +182,9 @@ export default {
         document.body.scrollTop;
       this.sTop = scrollTop;
       if (scrollTop >= 100) {
-        this.$refs.xmtwo.appendChild(this.$refs.ucarts);
+        this.flag = true;
       } else {
-        this.$refs.xmone.appendChild(this.$refs.ucarts);
+        this.flag = false;
       }
     },
     // 改变字体
@@ -230,7 +232,22 @@ export default {
       this.username = JSON.parse(localStorage.getItem("xmUser")).username;
     }
   },
-  watch: {},
+  watch: {
+    flag(val) {
+      if (this.$refs.xmtwo) {
+        if (val) {
+          this.$refs.xmtwo.append(this.$refs.ucarts);
+        } else {
+          this.$refs.xmone.append(this.$refs.ucarts);
+        }
+      }
+    },
+    $router(val) {
+      if (val.path === "/carts" || val.path === "/payment") {
+        this.$refs.xmone.append(this.$refs.ucarts);
+      }
+    }
+  },
   computed: {
     ...mapState(["cartsNum"])
   },
@@ -400,10 +417,10 @@ export default {
       // 隐藏的购物车盒子
       .hidden-carts {
         display: none;
-        padding-top: 18px;
         top: 20px;
         right: 0;
         width: 360px;
+        padding-top: 18px;
         .xm-carts {
           border-radius: 8px;
           background-color: #fff;

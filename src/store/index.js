@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import mainIndex from './MainIndex'
+import goods from './Goods'
 import $api from '../http/api'
+import { Message } from 'element-ui'
 
 Vue.use(Vuex)
 
@@ -38,8 +40,6 @@ export default new Vuex.Store({
                     sum += item.count * item.salePrice
                     item.checked = true
                 })
-                console.log(res.data);
-                console.log(num);
                 commit('setCartsSum', sum)
                 commit('setCartsNum', num)
             } else {
@@ -47,9 +47,30 @@ export default new Vuex.Store({
                 commit('setCartsSum', 0)
                 commit('setCartsNum', 0)
             }
-        }
+        },
+        // 加入购物车
+        async addCart({ commit, dispatch }, { productId, count }) {
+            let res = await $api.addCart({ productId, count })
+            if (res.code === 200) {
+                Message.success(res.msg)
+                dispatch('getCart')
+            } else {
+                Message.error('加入购物车失败')
+            }
+        },
+        // 删除购物车内商品
+        async deleteCart({ commit, dispatch }, { productId }) {
+            let res = await $api.delCart({ productId })
+            if (res.code === 200) {
+                Message.success(res.msg)
+                dispatch('getCart')
+            } else {
+                Message.error('删除商品失败~')
+            }
+        },
     },
     modules: {
-        mainIndex
+        mainIndex,
+        goods
     }
 })

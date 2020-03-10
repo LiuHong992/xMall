@@ -1,37 +1,35 @@
 <template>
-  <div>
-    <div class="footer-container w">
-      <div class="footer-main">
-        <div class="footer-left">
-          <ul v-for="item in list" :key="item.id">
-            <li>{{item.title}}</li>
-            <li v-for="content in item.desc" :key="content.id">{{content}}</li>
-          </ul>
-        </div>
-        <div class="footer-right">
-          <div>1012139570</div>
-          <div>周一至周日 10:00-23:00（限Starrer或捐赠人联系）</div>
-          <Button @click="warning(false)">在线帮助</Button>
-        </div>
-      </div>
-      <Divider />
-      <div class="footer-beian">
-        <ul class="fl beian-list">
-          <li>Copyright ©2017, exrick.cn Co., Ltd. All Rights Reserved.本网站设计内容大部分属锤子科技</li>
-          <li>
-            <a href>法律声明</a>
-          </li>
-          <li>
-            <a href>隐私条款</a>
-          </li>
-          <li>
-            <a href>开发者中心</a>
-          </li>
+  <div class="footer-container w">
+    <div class="footer-main">
+      <div class="footer-left">
+        <ul v-for="item in list" :key="item.id">
+          <li>{{item.title}}</li>
+          <li v-for="content in item.desc" :key="content.id">{{content}}</li>
         </ul>
-        <div class="beian-num">
-          <span>蜀ICP备16030308号-1</span>
-          <span>蜀ICP备16030308号</span>
-        </div>
+      </div>
+      <div class="footer-right">
+        <div>1012139570</div>
+        <div>周一至周日 10:00-23:00（限Starrer或捐赠人联系）</div>
+        <Button @click="warning(false)">在线帮助</Button>
+      </div>
+    </div>
+    <Divider />
+    <div class="footer-beian">
+      <ul class="fl beian-list">
+        <li>Copyright ©2017, exrick.cn Co., Ltd. All Rights Reserved.本网站设计内容大部分属锤子科技</li>
+        <li>
+          <a href>法律声明</a>
+        </li>
+        <li>
+          <a href>隐私条款</a>
+        </li>
+        <li>
+          <a href>开发者中心</a>
+        </li>
+      </ul>
+      <div class="beian-num">
+        <span>蜀ICP备16030308号-1</span>
+        <span>蜀ICP备16030308号</span>
       </div>
     </div>
   </div>

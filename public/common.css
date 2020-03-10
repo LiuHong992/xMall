@@ -738,7 +738,18 @@
 
 /* xmall项目一些公共css样式 */
 
+.bg-color {
+    background-color: #ededed;
+}
+
 .w {
     width: 1220px;
     margin: 0 auto;
+}
+
+
+/* 999999颜色字体 */
+
+.c999 {
+    color: #999999;
 }

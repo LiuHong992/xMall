@@ -11,7 +11,7 @@
       </div>
       <!-- 商品模板 -->
       <div class="f-1" v-for="(item,index) in commonArr.slice(1)" :key="index">
-        <goodmodel :goodmodel="item"></goodmodel>
+        <goodmodels :goodmodel="item"></goodmodels>
       </div>
     </div>
   </div>
@@ -19,7 +19,6 @@
 
 <script>
 import indexTitle from "../Common/IndexTitle";
-import goodmodel from "../Common/IndexGood";
 export default {
   data() {
     return {};
@@ -35,8 +34,7 @@ export default {
     }
   },
   components: {
-    indexTitle,
-    goodmodel
+    indexTitle
   },
   methods: {},
   mounted() {},

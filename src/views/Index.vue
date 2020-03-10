@@ -18,10 +18,10 @@
       <commons :commonObj="concentrationObj" :commonArr="concentrationObj.panelContents"></commons>
       <!-- 活动板块2 -->
       <acitivitys :activityObj="activetwoObj"></acitivitys>
-      <!-- 底部 -->
-      <div class="xm-footer">
-        <xmfooter></xmfooter>
-      </div>
+    </div>
+    <!-- 底部 -->
+    <div class="xm-footers">
+      <xmfooters></xmfooters>
     </div>
   </div>
 </template>
@@ -42,7 +42,6 @@ import banners from "../components/Index/Banners";
 import acitivitys from "../components/Index/Activityplate";
 import hotgoods from "../components/Index/HotGoods";
 import commons from "../components/Index/OfficialSelected";
-import xmfooter from "../components/Common/XmFooter";
 export default {
   data() {
     return {
@@ -56,8 +55,7 @@ export default {
     banners,
     acitivitys,
     hotgoods,
-    commons,
-    xmfooter
+    commons
   },
   methods: {
     ...mapActions(["getCart"]),
@@ -83,11 +81,10 @@ export default {
 
 <style scoped lang='scss'>
 .bg-color {
-  background-color: #ededed;
   .bottom-content {
     overflow: hidden;
   }
-  .xm-footer{
+  .xm-footer {
     background-color: #fafafa;
   }
 }

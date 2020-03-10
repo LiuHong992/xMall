@@ -15,7 +15,7 @@
         <!-- 查看详情按钮 -->
         <div class="look-info c-btn">查看详情</div>
         <!-- 加入购物车按钮 -->
-        <div class="add-cart c-btn">加入购物车</div>
+        <div class="add-cart c-btn" @click="addCarts(goodmodel.productId)">加入购物车</div>
       </div>
       <!-- 价格 -->
       <p class="prices">￥{{goodmodel.salePrice | fixedTwo}}</p>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {};
@@ -35,7 +36,13 @@ export default {
     }
   },
   components: {},
-  methods: {},
+  methods: {
+    ...mapActions(["addCart"]),
+    // 加入购物车
+    addCarts(pid) {
+      this.addCart({ productId: pid, count: 1 });
+    }
+  },
   mounted() {},
   watch: {},
   computed: {},

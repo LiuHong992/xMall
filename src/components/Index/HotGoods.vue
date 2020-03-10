@@ -6,7 +6,7 @@
     <div class="hot-content fl p-r">
       <!-- 商品模板 -->
       <div class="f-1" v-for="(item,index) in hotgoodsObj.panelContents" :key="index">
-        <goodmodel :goodmodel="item"></goodmodel>
+        <goodmodels :goodmodel="item"></goodmodels>
       </div>
     </div>
   </div>
@@ -23,14 +23,12 @@ const {
   mapMutations: indexMutations
 } = mainIndex;
 import indexTitle from "../Common/IndexTitle";
-import goodmodel from "../Common/IndexGood";
 export default {
   data() {
     return {};
   },
   components: {
-    indexTitle,
-    goodmodel
+    indexTitle
   },
   methods: {},
   mounted() {},
