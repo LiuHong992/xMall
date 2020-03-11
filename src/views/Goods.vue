@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 // 引入vuex帮助助手(分模块开发必用)
 import { createNamespacedHelpers } from "vuex";
 const goods = createNamespacedHelpers("goods");
@@ -115,7 +114,6 @@ export default {
   },
   components: {},
   methods: {
-    ...mapActions(["getCart"]),
     ...goodsActions(["getGoodsData"]),
     // 点击排序方法相同的结构
     commonFuc() {
@@ -193,7 +191,6 @@ export default {
     }
   },
   mounted() {
-    this.getCart();
     this.getGoodsData({
       page: this.page,
       size: this.pageSize,

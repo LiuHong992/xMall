@@ -18,12 +18,11 @@ Vue.prototype.$goto = function(path, item, key, index = 1) {
             }
         });
     } else if (item) {
-        this.$router.push({
-            name: path,
-            query: {
-                items: JSON.stringify(item),
-            }
+        let routeUrl = this.$router.resolve({
+            path: path,
+            query: { items: JSON.stringify(item) }
         });
+        window.open(routeUrl.href, '_blank');
     } else {
         this.$router.push(path)
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="good-model">
     <!-- 商品图片 -->
-    <div class="good-cover">
+    <div class="good-cover" @click="$goto('/details',goodmodel.productId)">
       <img class="img" :src="goodmodel.productImageBig" alt />
     </div>
     <!-- 商品名 -->
@@ -13,7 +13,7 @@
       <!-- 两个按钮 -->
       <div class="two-btns a-c f-center f-s-12">
         <!-- 查看详情按钮 -->
-        <div class="look-info c-btn">查看详情</div>
+        <div class="look-info c-btn" @click="$goto('/details',goodmodel.productId)">查看详情</div>
         <!-- 加入购物车按钮 -->
         <div class="add-cart c-btn" @click="addCarts(goodmodel.productId)">加入购物车</div>
       </div>

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 // 引入vuex帮助助手(分模块开发必用)
 import { createNamespacedHelpers } from "vuex";
 // 传模块名字
@@ -58,11 +58,9 @@ export default {
     commons
   },
   methods: {
-    ...mapActions(["getCart"]),
     ...indexActions(["getHomeData"])
   },
   mounted() {
-    this.getCart();
     this.getHomeData();
   },
   watch: {},

@@ -55,7 +55,7 @@ export default {
     // ### 商品详情
 
     // ``` js
-    // http://localhost:9999/goods/search
+    // http://localhost:9999/goods/detail
     // 请求方式:get
     // 参数:
     // productId: 商品id
@@ -105,7 +105,7 @@ export default {
     // 参数:
     // productId: 商品id
     // ```
-    addCart({ productId, count = 1 }) {
+    addCart({ productId, count }) {
         return service.post(
             '/goods/addCart', {
                 productId,

@@ -1,7 +1,7 @@
 <template>
   <div class="xm-header b-box">
     <!-- 头部第一部分 -->
-    <div class="xm-header-one flex s-b">
+    <div class="xm-header-one fl s-b">
       <!-- LOGO -->
       <a href="/">
         <div class="header-navone"></div>
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import shopcart from "./Xmcarts";
 export default {
   data() {
@@ -174,6 +174,7 @@ export default {
     shopcart
   },
   methods: {
+    ...mapActions(["getCart"]),
     // 监听页面滚动
     handleScroll() {
       var scrollTop =
@@ -227,6 +228,7 @@ export default {
     }
   },
   mounted() {
+    this.getCart();
     window.addEventListener("scroll", this.handleScroll);
     if (localStorage.getItem("xmUser")) {
       this.username = JSON.parse(localStorage.getItem("xmUser")).username;
