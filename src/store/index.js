@@ -34,19 +34,27 @@ export default new Vuex.Store({
             console.log(state.goodDetail);
         },
     },
+    getters: {
+        // getNewGood(state) {
+        //     state.goodsList.map(item => {
+        //         item.checked = false
+        //     })
+        //     return state.goodsList
+        // }
+    },
     actions: {
         // 获取购物车数据和购物车下标
         async getCart({ commit, dispatch }) {
             let res = await $api.getCarts()
             if (res.code === 200) {
-                commit('setGoodsList', res.data)
                 let num = 0;
                 let sum = 0;
                 res.data.map(item => {
                     num += item.count
                     sum += item.count * item.salePrice
-                    item.checked = true
+                    item.checked = false
                 })
+                commit('setGoodsList', res.data)
                 commit('setCartsSum', sum)
                 commit('setCartsNum', num)
             } else {
@@ -69,7 +77,7 @@ export default new Vuex.Store({
         async deleteCart({ commit, dispatch }, { productId }) {
             let res = await $api.delCart({ productId })
             if (res.code === 200) {
-                Message.success(res.msg)
+                // Message.success(res.msg)
                 dispatch('getCart')
             } else {
                 Message.error('删除商品失败~')
@@ -81,7 +89,14 @@ export default new Vuex.Store({
             if (res.code === 200) {
                 commit('setGoodDetail', res.data)
             }
-        }
+        },
+        // 购物车数量修改(购物车页面计数器触发的方法)
+        async changeCounts({ commit, dispatch }, { productId, count }) {
+            let res = await $api.editCart({ productId, count })
+            if (res.code === 200) {
+                dispatch('getCart')
+            }
+        },
     },
     modules: {
         mainIndex,

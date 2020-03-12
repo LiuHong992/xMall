@@ -41,7 +41,7 @@
           <span class="sp-color f-s-18">{{cartsSum}}</span>
         </div>
         <!-- 跳转购物车按钮 -->
-        <div class="goto-carts p-a t-center f-s-14">去购物车</div>
+        <div class="goto-carts p-a t-center f-s-14" @click="$goto('carts')">去购物车</div>
       </div>
     </div>
   </div>

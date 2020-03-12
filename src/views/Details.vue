@@ -77,11 +77,10 @@ export default {
     indexTitle
   },
   methods: {
-    ...mapActions(["getGoodInfo", "addCart", "getCart"]),
+    ...mapActions(["getGoodInfo", "addCart"]),
     // 步进器方法
     handleChange(value) {
       this.num = value;
-      console.log(this.num);
     },
     // 加入购物车按钮
     addToCart(pid) {
@@ -92,7 +91,9 @@ export default {
     }
   },
   mounted() {
-    this.getGoodInfo(this.$route.query.items);
+    if (this.$route.query.items) {
+      this.getGoodInfo(this.$route.query.items);
+    }
   },
   watch: {},
   computed: {
